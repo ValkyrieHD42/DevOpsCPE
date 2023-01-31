@@ -57,21 +57,21 @@ Attention, avant de lancer le serveur on doit configurer l'accès à la base de 
 Docker permet de relier les éléments du réseau en associant une adresse IP à leur nom de containeur.
 
 Dockerfile :
-># Build
->FROM maven:3.8.6-amazoncorretto-17 AS myapp-build
->ENV MYAPP_HOME /opt/myapp
->WORKDIR $MYAPP_HOME
->COPY pom.xml .
->COPY src ./src
->RUN mvn package -DskipTests
+> #Build  
+> FROM maven:3.8.6-amazoncorretto-17 AS myapp-build
+> ENV MYAPP_HOME /opt/myapp
+> WORKDIR $MYAPP_HOME
+> COPY pom.xml .
+> COPY src ./src
+> RUN mvn package -DskipTests
 >
-># Run
->FROM amazoncorretto:17
->ENV MYAPP_HOME /opt/myapp
->WORKDIR $MYAPP_HOME
->COPY --from=myapp-build $MYAPP_HOME/target/*.jar $MYAPP_HOME/myapp.jar
+> #Run  
+> FROM amazoncorretto:17
+> ENV MYAPP_HOME /opt/myapp
+> WORKDIR $MYAPP_HOME
+> COPY --from=myapp-build $MYAPP_HOME/target/*.jar $MYAPP_HOME/myapp.jar
 >
->ENTRYPOINT java -jar myapp.jar
+> ENTRYPOINT java -jar myapp.jar
 
 Ici on décompose le build en plusieurs, "Multistage build" cela permet récupérer uniquement ce qui nous ai nécessaire pour lancer l'application.
 
@@ -88,13 +88,13 @@ On peut voir que nos données sont bien récupérables et que l'API est accessib
 
 **Configuration du serveur apache**
 
->FROM  httpd:2.4
+> FROM  httpd:2.4
 >
->#Copie des fichier dans le serveur
->COPY  .  /usr/local/apache2/htdocs/
+> #Copie des fichier dans le serveur  
+> COPY  .  /usr/local/apache2/htdocs/
 >
->#Ecrase la conf pour rajouter le reverse proxy
->COPY  httpd.conf  /usr/local/apache2/conf/httpd.conf
+> #Ecrase la conf pour rajouter le reverse proxy  
+> COPY  httpd.conf  /usr/local/apache2/conf/httpd.conf
 
 Dans notre cas un deuxième réseau aurais pu être rajouté pour laisser communiquer uniquement notre serveur API et le front en isolant notre base de données a des fin de sécurisation.
 
