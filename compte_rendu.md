@@ -112,3 +112,15 @@ Dans notre cas il redirige simplement vers notre serveur API.
 
 **Création d'un docker-compose**
 Le docker compose permet de regrouper plusieurs conteneurs. Ici on vient déclarer nos 3 conteneurs, backend, database et httpd. Le dockercompose va venir récupérer le fichier Dockerfile de chaque dossier spécifier pour construire chaque image.
+
+![image](https://user-images.githubusercontent.com/57757196/215785211-c4fbf1a8-93cc-457a-9850-c46b0824f6b4.png)
+
+Dans cette configuration, on reprends la plus part des arguments passés en paramètre de la commande pour les formaliser dans la configuration du docker-compose. Il y a quand même une nouvelle subtilité avec le **depends_on** qui permet de dire quel conteneur à besoin de se lancer en premier ou avant un autre.
+
+Pour lancer le docker compose on éxecute la commande suivante : **docker-compose up**
+on peut arrêter un docker-compose avec **docker-compose stop** ou simple avec un **CTRL+C** quand on se trouve dans un terminal
+
+On peut donc ouvrir un navigateur et intéroger la page *http://localhost:8080/students*, celui ci est censé nous rediriger vers le backend grâce à l'implémentation du reverse proxy.
+
+![image](https://user-images.githubusercontent.com/57757196/215786456-28d2d427-5c62-4b39-ba37-56b88adb9dae.png)
+
