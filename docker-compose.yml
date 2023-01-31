@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+    backend:
+        build: /simple-api-student-main/
+        networks: 
+        - my-network
+        depends_on:
+        - database
+    database:
+        build: /postgres/
+        networks: 
+        - my-network
+        environment:
+          POSTGRES_PASSWORD: pwd
+        ports:
+        - '5000:5432'
+        volumes:
+        - /data/:/var/lib/postgresql/data
+    httpd:
+        build: /apache-server/
+        ports:
+        - '8080:80'
+        networks: 
+        - my-network
+        depends_on:
+        - database
+        - backend
+networks:
+    my-network:
+      name: my-network
