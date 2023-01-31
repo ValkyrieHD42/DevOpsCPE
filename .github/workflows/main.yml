@@ -43,7 +43,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           # relative path to the place where source code with Dockerfile is located
-          context: ./java-app/simpleapi
+          context: ./simple-api-student-main
           # Note: tags has to be all lower-case
           tags:  ${{secrets.DOCKERHUB_USERNAME}}/tp-devops/simple-api
 
