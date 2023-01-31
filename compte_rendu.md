@@ -11,7 +11,7 @@
 **-t** défini le nom de l'image ça lui donne un tag
  
 **Lancement de la db :**
- `docker run --net=app-network -e POSTGRES_PASSWORD=pwd -p 5000:5432 -d --name postgresM martin/postgresql`
+ `docker run --net=app-network -e POSTGRES_PASSWORD=pwd -p 5000:5432 -d -v /data/:/var/lib/postgresql/data --name postgresM martin/postgresql`
 
 **--net=app-network** permet de lui dire d'utiliser le réseau créé au préalable identifié par le nom : `app-network`
 
@@ -21,6 +21,23 @@
 
 **-d** créer le container dans un processus détaché de notre terminal 
 
+**-v** permet le montage d'un volume : on vient monter un dossier pour permettre la peristance des données en base
+
+**Dockerfile du Postgres**
+> FROM postgres:14.1-alpine
+> 
+> ENV POSTGRES_DB=db` ENV POSTGRES_USER=usr
+> 
+> COPY /data /docker-entrypoint-initdb.d
+
+On lui indique de prendre postgres avec une version 14.1-alpine
+On lui donne des variables d'environnements, nécessaires au lancement de Postgres
+Et enfin on colle nos script dans un le `docker-entrypoint-initdb.d`, cela permet d'éxécuter les scripts au démarage de l'application.
+
+**Lancement de l'appli PostgresSQL**
+`docker run --net=app-network -e POSTGRES_PASSWORD=pwd -p 5000:5432 -v /data/:/var/lib/postgresql/data -d --name postgresM martin/postgresql`
+Ici on lui dit d'utiliser notre réseau, on lui rajoute des variables d'environnements. Contrairement aux variables dans le build, celles-ci sont injectés au runtime de l'appli, on peut donc sécuriser notre mot de passe de base de données.
+On vient aussi spécifier une redirection de port avec le *-p* pour dire que notre port 5000 renvoi vers le port 5432 de notre containeur. On lance le containeur en détaché avec le *-d*.
 
  **Création du réseau**
  `docker network create app-network`
@@ -28,16 +45,24 @@
  
 Dockerfile avec l'intialisation de la base avec les scripts sql :
 
-> FROM postgres:14.1-alpine
-> 
-> ENV POSTGRES_DB=db` ENV POSTGRES_USER=usr
-> 
-> COPY /data /docker-entrypoint-initdb.d
+**Condiguration du serveur spring
 
-**Lancement de l'appli PostgresSQL**
-`docker run --net=app-network -e POSTGRES_PASSWORD=pwd -p 5000:5432 -v /data/:/var/lib/postgresql/data -d --name postgresM martin/postgresql`
-Ici on lui dit d'utiliser notre réseau, on lui rajoute des variables d'environnements. Contrairement aux variables dans le build, celles-ci sont injectés au runtime de l'appli, on peut donc sécuriser notre mot de passe de base de données.
-On vient aussi spécifier une redirection de port avec le *-p* pour dire que notre port 5000 renvoi vers le port 5432 de notre containeur. On lance le containeur en détaché avec le *-d*.
+Dockerfile :
+># Build
+>FROM maven:3.8.6-amazoncorretto-17 AS myapp-build
+>ENV MYAPP_HOME /opt/myapp
+>WORKDIR $MYAPP_HOME
+>COPY pom.xml .
+>COPY src ./src
+>RUN mvn package -DskipTests
+>
+># Run
+>FROM amazoncorretto:17
+>ENV MYAPP_HOME /opt/myapp
+>WORKDIR $MYAPP_HOME
+>COPY --from=myapp-build $MYAPP_HOME/target/*.jar $MYAPP_HOME/myapp.jar
+
+ENTRYPOINT java -jar myapp.jar
 
 **Lancement du serveur spring :**
 `docker run --net=app-network -p 8000:8080 --name SimpleApi martin/simpleapi`
