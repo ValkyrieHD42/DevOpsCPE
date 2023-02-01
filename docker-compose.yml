@@ -1,7 +1,13 @@
 version: '3.7'
 
 services:
-    backend:
+    backend-1:
+        build: /simple-api-student-main/
+        networks: 
+        - my-network
+        depends_on:
+        - database
+    backend-2:
         build: /simple-api-student-main/
         networks: 
         - my-network
@@ -25,7 +31,8 @@ services:
         - my-network
         depends_on:
         - database
-        - backend
+        - backend-1
+        - backend-2
 networks:
     my-network:
       name: my-network
