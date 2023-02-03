@@ -1,4 +1,4 @@
-# TP2: GitHub Action
+# TP2: GitHub Action and SonarCloud
 
 The first step was to prepare a .yml file to describe the actions to perform when you push code to github.  
 We first tried a simple clean previous build then build the new one with :  
@@ -6,7 +6,7 @@ We first tried a simple clean previous build then build the new one with :
 The `-X` allows to run the build in debug mode.
 
 Result:  
-![Screen of the result of the command above](Capture du 2023-01-31 16-06-52.png "Screen of the result of the command above")
+![Screen of the result of the command above](./githubAction.png "Screen of the result of the command above")
 
 Then we tried to create a quality gate using SonarCloud.
 This allows to ensure that we push only clean code and ease the learning and using of best practice.
