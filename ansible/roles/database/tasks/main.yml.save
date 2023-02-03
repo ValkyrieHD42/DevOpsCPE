@@ -1,0 +1,10 @@
+- name: Create db container and connect to network
+  d:
+    name: database
+    image: valkyriehd/database:latest
+    volumes:
+      - /data/:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: pwd
+    networks:
+      - name: app-network

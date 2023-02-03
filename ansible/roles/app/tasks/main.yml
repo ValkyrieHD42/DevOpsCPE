@@ -1,0 +1,8 @@
+---
+# tasks file for roles/app
+- name: Launch backend-1 server
+  docker_container:
+    name: backend-1
+    image: valkyriehd/simple-api:latest
+    networks:
+      - name: app-network

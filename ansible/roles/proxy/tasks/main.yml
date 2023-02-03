@@ -1,0 +1,11 @@
+---
+# tasks file for roles/proxy
+- name: Launch httpd server
+  docker_container:
+    name: httpd
+    image: valkyriehd/httpd:latest
+    networks:
+      - name: app-network
+    ports:
+    - 80:80
+    - 8080:8080

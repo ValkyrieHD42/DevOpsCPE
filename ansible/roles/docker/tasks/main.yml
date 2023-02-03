@@ -1,0 +1,36 @@
+---
+# tasks file for roles/docker
+  - name: Clean packages
+    command:
+      cmd: dnf clean -y packages
+
+  - name: Install device-mapper-persistent-data
+    dnf:
+      name: device-mapper-persistent-data
+      state: latest
+
+  - name: Install lvm2
+    dnf:
+      name: lvm2
+      state: latest
+
+  - name: add repo docker
+    command:
+      cmd: sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+
+  - name: Install Docker
+    dnf:
+      name: docker-ce
+      state: present
+
+  - name: install python3
+    dnf:
+      name: python3
+
+  - name: Pip install
+    pip:
+      name: docker
+
+  - name: Make sure Docker is running
+    service: name=docker state=started
+    tags: docker
