@@ -1,8 +1,8 @@
 
 ## Note commandes docker
-1- Create a dockerfile in the directory
-2- build the docker with the following cmd : `docker build -t MyName/appName .`
-3- run the docker container `docker run -p 8888:5000 --name appName MyName/appName`
+1- Create a dockerfile in the directory  
+2- build the docker with the following cmd : `docker build -t MyName/appName .`  
+3- run the docker container `docker run -p 8888:5000 --name appName MyName/appName`  
 
 
 ## TP 1
