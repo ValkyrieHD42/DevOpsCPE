@@ -13,5 +13,5 @@ This allows to ensure that we push only clean code and ease the learning and usi
 
 We first created an organization in SonarCloud.
 We linked Martin's github's in order to test this deposit.
-Once we added secrets and keys, we were able to link our SonarCloud tests to our deposit changing the build and test step of our .yml to :
+Once we added secrets and keys, we were able to link our SonarCloud tests to our deposit changing the build and test step of our .yml to :  
 `run: mvn -B verify sonar:sonar -Dsonar.projectKey=ValkyrieHD42_DevOpsCPE -Dsonar.organization=valkyriehd42 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}  --file simple-api-student-main/pom.xml`
