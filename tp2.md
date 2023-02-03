@@ -8,7 +8,7 @@ The `-X` allows to run the build in debug mode.
 Result:  
 ![Screen of the result of the command above](./githubAction.png "Screen of the result of the command above")
 
-Then we tried to create a quality gate using SonarCloud.
+Then we tried to create a quality gate using SonarCloud.  
 This allows to ensure that we push only clean code and ease the learning and using of best practice.
 
 We first created an organization in SonarCloud.
