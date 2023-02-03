@@ -53,7 +53,7 @@ taks to build images and push them :
           tags:  ${{secrets.DOCKERHUB_USERNAME}}/httpd
           push: ${{ github.ref == 'refs/heads/main' }}
 ```
-the arg  *push* is here to push the built images.
+the arg  *push* is here to specify that we want to push the built images.
 
 ## For what purpose do we need to push docker images?
 It is important to have our docker images pushed because we need them when we want to deploy them from an other tool or directly from docker.
